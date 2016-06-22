@@ -1,0 +1,21 @@
+{
+  "name": "gulp-iconfont-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "consolidate": "^0.13.1",
+    "gulp-util": "^3.0.6",
+    "lodash": "^3.10.0"
+  },
+  "homepage": "https://github.com/daycool/gulp-iconfont-template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daycool/gulp-iconfont-template.git"
+  },
+  "author": "daycool",
+  "license": "ISC"
+}
