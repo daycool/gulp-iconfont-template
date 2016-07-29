@@ -29,7 +29,7 @@ ul li:hover{
 <% _.each(glyphs, function(glyph) { %>
 <li>
     <i class="<%= cssClass %> <%= cssClass %>-<%= glyph.fileName %>"></i>
-    <pre><%= cssClass %>-<%= glyph.fileName %></pre>
+    <pre><%= cssClass %>-<%= glyph.fileName %> \<%= glyph.codePoint %></pre>
 </li><% }); %>
 </ul>
 </body>
