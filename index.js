@@ -10,6 +10,8 @@ var PLUGIN_NAME  = 'gulp-iconfont-template';
 
 function iconfontTemplate(config) {
 	var glyphMap = [],
+		currentGlyph,
+		currentCodePoint,
 		inputFilePrefix,
 		stream,
 		outputFile,
@@ -22,6 +24,7 @@ function iconfontTemplate(config) {
 		targetPath: 'template.html',
 		fontPath: './',
 		engine: 'lodash',
+    firstGlyph: 0xE001,
 		cssClass: 'icon'
 	}, config);
 
@@ -38,6 +41,9 @@ function iconfontTemplate(config) {
 	} catch(e) {
 		throw new gutil.PluginError(PLUGIN_NAME, 'Template engine "' + config.engine + '" not present');
 	}
+
+	// Define starting point
+	currentGlyph = config.firstGlyph;
 
 	// Happy streaming
 	stream = Stream.PassThrough({
@@ -62,9 +68,12 @@ function iconfontTemplate(config) {
 			});
 		}
 
+		currentCodePoint = (currentGlyph++).toString(16).toUpperCase();
+
 		fileName = path.basename(file.path, '.svg');
 		glyphMap.push({
 			fileName: fileName,
+			codePoint: currentCodePoint
 		});
 
 		file.path = path.dirname(file.path) + '/' + path.basename(file.path);
