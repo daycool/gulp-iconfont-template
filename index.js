@@ -24,7 +24,7 @@ function iconfontTemplate(config) {
 		targetPath: 'template.html',
 		fontPath: './',
 		engine: 'lodash',
-    firstGlyph: 0xE001,
+	    firstGlyph: 0xE001,
 		cssClass: 'icon'
 	}, config);
 
