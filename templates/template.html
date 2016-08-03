@@ -9,6 +9,21 @@
 <link href="" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<%=fontName%>.css">
 <style type="text/css">
+.<%= cssClass %>-binary {
+    font-family: "<%=fontName%>";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    text-decoration: none;
+    text-transform: none;
+}
+
+.my-class-name:before{
+	content: "\<%= glyphs[0].codePoint %>";
+}
+
 ul, li{
     margin: 0;
     padding: 0;
@@ -16,17 +31,37 @@ ul, li{
 }
 ul li{
     float: left;
-    padding: 10px;
     text-align: center;
 }
 ul li:hover{
     background: #ddd;
 }
 
+#icon-list li{
+	padding: 10px;
+}
+.icon-show-type{
+	clear: both;
+}
+.icon-show-type li span{
+	display: block;
+	padding: 10px;
+}
+.icon-show-type input{
+	display: none;
+}
+.icon-show-type input:checked ~ span{
+	background: #ddd;
+}
+
 i{
 	display: block;
 }
 
+#icon-demo i{
+	float: left;
+    padding-left: 10px;
+}
 .class-name li, .hex li, .binary li{
 	display: none;
 }
@@ -44,16 +79,79 @@ i{
 	display: inline;
 }
 
+.clearfix:after { 
+	content:"."; 
+	display:block; 
+	height:0; 
+	clear:both; 
+	visibility:hidden 
+}
 
 </style>
 </head>
 <body>
-<ul id="icon-show-type">
-	<li onclick="showIconType(0)">className</li>
-	<li onclick="showIconType(1)">hex</li>
-	<li onclick="showIconType(2)">binary</li>
-</ul>
 
+<ul class="icon-show-type clearfix">
+	<li>
+		<label onclick="showIconType(0)">
+			<input type="radio" name="icon-type">
+			<span>className</span>
+		</label>
+	</li>
+	<li>
+		<label onclick="showIconType(1)">
+			<input type="radio" name="icon-type">
+			<span>hex</span>
+		</label>
+	</li>
+	<li>
+		<label onclick="showIconType(2)">
+			<input type="radio" name="icon-type">
+			<span>binary</span>
+		</label>
+	</li>
+</ul>
+<hr/>
+Demo
+<div id="icon-demo" class="class-name clearfix">
+	<li class="class-name-demo">
+		<i class="<%= cssClass %> <%= cssClass %>-<%= glyphs[0].fileName %>"></i>
+		<pre>
+			&lt;i class="<%= cssClass %> <%= cssClass %>-<%= glyphs[0].fileName %>"&gt;&lt;/i&gt;
+		</pre>
+	</li>
+	<li class="hex-demo">
+		<i class="<%= cssClass %> my-class-name"></i>
+		<pre>
+		    &lt;style&gt;
+			    .my-class-name:before{
+				    content: "\<%= glyphs[0].codePoint %>";
+				}
+			&lt;/style&gt;
+
+			&lt;i class="<%= cssClass %> my-class-name"&gt;&lt;/i&gt;
+		</pre>
+	</li>
+	<li class="binary-demo">
+		<i class="<%= cssClass %>-binary">&#<%=+('0x' + glyphs[0].codePoint).toString(10)%>;</i>
+		<pre>
+		    &lt;style&gt;
+				.<%= cssClass %>-binary {
+				    font-family: "<%=fontName%>";
+				    -webkit-font-smoothing: antialiased;
+				    -moz-osx-font-smoothing: grayscale;
+				    font-style: normal;
+				    font-variant: normal;
+				    font-weight: normal;
+				    text-decoration: none;
+				    text-transform: none;
+				}
+			&lt;/style&gt;
+			&lt;i class="<%= cssClass %>-binary"&gt; &amp;#<%=+('0x' + glyphs[0].codePoint).toString(10)%>;&lt;/i&gt; 
+		</pre>
+	</li>
+</div>
+<hr/>
 <ul id="icon-list" class="class-name">
 <% _.each(glyphs, function(glyph) { %>
 <li class="class-name-demo">
@@ -65,8 +163,8 @@ i{
     <pre>\<%= glyph.codePoint %></pre>
 </li>
 <li class="binary-demo">
-    <i class="<%= cssClass %> <%= cssClass %>-<%= glyph.fileName %>"></i>
-    <pre>&#</pre><pre><%=+('0x' + glyph.codePoint).toString(10)%>;</pre>
+    <i class="<%= cssClass %>-binary">&#<%=+('0x' + glyph.codePoint).toString(10)%>;</i>
+    <pre>&amp;#<%=+('0x' + glyph.codePoint).toString(10)%>;</pre>
 </li>
 <% }); %>
 </ul>
@@ -80,6 +178,7 @@ i{
 		};
 
 		document.getElementById('icon-list').className = classMap[type];
+		document.getElementById('icon-demo').className = classMap[type] + ' clearfix';
 
 	}
 </script>
