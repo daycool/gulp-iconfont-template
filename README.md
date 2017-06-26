@@ -25,7 +25,7 @@ var fontName = 'Icons';
 
 gulp.task('iconfont', function(){
   gulp.src(['app/assets/icons/*.svg'])
-    .pipe(iconfontHtml({
+    .pipe(iconfontTemplate({
       fontName: fontName,
       path: 'assets/templates/template.html',
       targetPath: 'template.html'
